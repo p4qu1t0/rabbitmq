@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "63ca7f11-792e-4488-9f44-606a6afc2fcf",
+		"name": "RabbitMQ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get queue info",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "52bd7ee3-c7fd-4342-8ab0-7438379d4290",
+						"exec": [
+							"pm.environment.set(\"rabbithost\", \"rabbitmq-dev.emea.xxx.local\");\r",
+							"pm.environment.set(\"rabbitport\", \"8692\");\r",
+							"pm.environment.set(\"rabbitvhost\", \"ddd_eee\");\r",
+							"pm.environment.set(\"user\", \"ccc_ddd\");\r",
+							"pm.environment.set(\"password\", \"mmmm\");\r",
+							"\r",
+							"queues = [\r",
+							"    {\"q\":\"XXX.EUROPA.ESP.DEV.YYY.SMART.EVENTSSERVICESV2.RESULT.AS\"}\r",
+							" ];\r",
+							"\r",
+							"PRIDS = _.map(queues,(pr) => pr.q);\r",
+							"\r",
+							"// Store all the PR Ids in the environment variable\r",
+							"pm.environment.set('PRIDS', JSON.stringify(PRIDS));\r",
+							"//pm.environment.set('PRIDS', JSON.stringify(queues));\r",
+							"\r",
+							"// Store the next index of the array for PR ids\r",
+							"pm.environment.set('nextIndex', 0);\r",
+							"\r",
+							"// Store the active PR ID to fetch the comments for\r",
+							"pm.environment.set('activePRID', PRIDS[0]);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "97adebaa-41ab-4d5d-81ed-83cdd4f6b45a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{rabbithost}}:{{rabbitport}}/api/queues/{{rabbitvhost}}/{{activePRID}}",
+					"protocol": "http",
+					"host": [
+						"{{rabbithost}}"
+					],
+					"port": "{{rabbitport}}",
+					"path": [
+						"api",
+						"queues",
+						"{{rabbitvhost}}",
+						"{{activePRID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get array of queues",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c50d7ec4-1fde-44e7-8e60-d5e65bf7a95e",
+						"exec": [
+							"pm.environment.set(\"rabbithost\", \"rabbitmq-dev.emea.xxx.local\");\r",
+							"pm.environment.set(\"rabbitport\", \"8692\");\r",
+							"pm.environment.set(\"rabbitvhost\", \"ddd_eee\");\r",
+							"pm.environment.set(\"user\", \"ccc_ddd\");\r",
+							"pm.environment.set(\"password\", \"mmmm\");\r",
+							"\r",
+							"queues = [\r",
+							"\t{\"q\":\"XXX.EUROPA.ESP.DEV.YYY.SMART.EVENTSSERVICESV2.RESULT.AS\"},\r",
+							"\t{\"q\":\"XXX.EUROPA.ESP.DEV.YYY.SMART.NOTIFICATIONS.RESULT.AS\"},\r",
+							"\t{\"q\":\"XXX.EUROPA.PRT.DEV.ALM.TOASMS.SIEBEL.AS\"}\r",
+							" ];\r",
+							"\r",
+							"let bodyQueues = _.map(queues,(pr) => pr.q);\r",
+							"\r",
+							"// Store all the PR Ids in the environment variable\r",
+							"pm.environment.set('bodyQueues', JSON.stringify(bodyQueues));\r",
+							"\r",
+							"// Store the next index of the array for PR ids\r",
+							"pm.environment.set('nextIndex', 0);\r",
+							"\r",
+							"// Store the active PR ID to fetch the comments for\r",
+							"pm.environment.set('activeQueue', bodyQueues[0]);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "811520c5-a221-450e-8282-ec5661255370",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1a8884f4-1a69-4897-a843-bd5bfa616d3a.mock.pstmn.io/pullrequests",
+					"protocol": "https",
+					"host": [
+						"1a8884f4-1a69-4897-a843-bd5bfa616d3a",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"pullrequests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create dynamic Rabbit queues",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b12034cb-ac7c-4a1d-bee2-3a6cd6ed2b9d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "268d1f06-6e4e-4542-ac13-1e5e95e5733e",
+						"exec": [
+							"let bodyQueues = JSON.parse(pm.environment.get('bodyQueues')),",
+							"    // Increment the next Index",
+							"    nextIndex = parseInt(pm.environment.get('nextIndex')) + 1;",
+							"",
+							"",
+							"// In case comments have been fetched for all requests then we're done here",
+							"// time to end the collection run and clean up the environment and activeQueue",
+							"console.log(\"bodyQueues.length: \",  bodyQueues.length);",
+							"console.log(\"nextIndex: \",  nextIndex);",
+							"if (bodyQueues.length === nextIndex) {",
+							"    pm.environment.set('nextIndex', 0);",
+							"    pm.environment.set('activeQueue', bodyQueues[0]);",
+							"",
+							"    postman.setNextRequest(null);",
+							"}",
+							"else {",
+							"    let activeQueue = bodyQueues[nextIndex];",
+							"    pm.environment.set('nextIndex', nextIndex);",
+							"    pm.environment.set('activeQueue', activeQueue);",
+							"",
+							"    // Now run the get comments request again to get the comments",
+							"    // for the next request",
+							"    postman.setNextRequest(\"Create dynamic Rabbit queues\");",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"durable\": true,\r\n    \"arguments\": {\r\n        \"x-queue-type\": \"quorum\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{rabbithost}}:{{rabbitport}}/api/queues/{{rabbitvhost}}/{{activeQueue}",
+					"protocol": "http",
+					"host": [
+						"{{rabbithost}}"
+					],
+					"port": "{{rabbitport}}",
+					"path": [
+						"api",
+						"queues",
+						"{{rabbitvhost}}",
+						"{{activeQueue}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b4093452-6a0f-4122-b840-67646408651e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "09922601-415f-443d-826f-884a9e8953e9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
